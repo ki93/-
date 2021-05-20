@@ -1,0 +1,7 @@
+package com.manage.system.service;
+
+public class TestService {
+	@Autowired public TestMapper mapper;
+	public List<TestVo> selectTest() { return mapper.selectTest(); }
+
+}

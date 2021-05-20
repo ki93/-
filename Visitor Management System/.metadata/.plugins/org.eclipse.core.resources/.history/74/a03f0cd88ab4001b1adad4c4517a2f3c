@@ -1,0 +1,22 @@
+package com.manage.system;
+
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.manage.system.mapper.SigninMapper;
+
+@SpringBootTest
+public class MapperTests {
+	@Autowired
+	private SigninMapper signinMapper;
+
+	@Test
+	public void testOfInsert() {
+		UserDTO params = new UserDTO();
+		params.setTitle("1번 게시글 제목");
+		params.setContent("1번 게시글 내용");
+		params.setWriter("테스터");
+
+		int result = boardMapper.insertBoard(params);
+		System.out.println("결과는 " + result + "입니다.");
+	}
+}

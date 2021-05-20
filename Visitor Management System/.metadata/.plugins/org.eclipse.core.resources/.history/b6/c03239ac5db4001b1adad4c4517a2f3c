@@ -1,0 +1,8 @@
+package com.manage.system.dto;
+
+import lombok.Data;
+
+@Data
+public class UserDTO {
+
+}

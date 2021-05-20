@@ -1,0 +1,9 @@
+package com.manage.system.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public class SigninMapper {
+
+	public String userLogin(Long idx);
+}

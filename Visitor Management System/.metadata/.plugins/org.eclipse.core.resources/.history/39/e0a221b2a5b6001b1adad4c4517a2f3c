@@ -1,0 +1,9 @@
+package com.manage.system.service;
+
+import com.manage.system.mapper.SigninMapper;
+
+public class TestService {
+	@Autowired public SigninMapper mapper;
+	public String selectTest() { return mapper.selectTest(); }
+
+}

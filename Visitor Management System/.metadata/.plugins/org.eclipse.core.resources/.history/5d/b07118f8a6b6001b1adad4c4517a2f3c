@@ -1,0 +1,14 @@
+package com.manage.system.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.manage.system.mapper.SigninMapper;
+
+@Service
+public class TestService {
+	
+	@Autowired
+	public SigninMapper mapper;
+	public String userSignin(String userId) { return mapper.userSignin(userId); }
+
+}

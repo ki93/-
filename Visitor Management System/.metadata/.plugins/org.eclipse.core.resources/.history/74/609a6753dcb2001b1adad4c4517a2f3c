@@ -1,0 +1,9 @@
+# 포트 설정
+server.port = 8090
+# 자동 리로드
+spring.devtools.livereload.enabled=true
+# Maria DB 연결
+spring.datasource.hikari.driver-class-name=org.mariadb.jdbc:mariadb-java-client
+spring.datasource.hikari.jdbc-url=jdbc:mariadb://9.8.100.40:3306/hnrnd?characterEncoding=UTF-8&serverTimezone=UTC
+spring.datasource.hikari.username=hndid
+spring.datasource.hikari.password=hndid100!
