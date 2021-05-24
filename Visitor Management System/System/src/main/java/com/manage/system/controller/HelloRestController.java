@@ -15,7 +15,7 @@ public class HelloRestController {
 	}
 	@Autowired 
 	TestService testService; 
-	@RequestMapping(value = "/test") 
+	@RequestMapping("/test") 
 	public ModelAndView test() throws Exception{
 		ModelAndView mav = new ModelAndView("test");
 		String testList = testService.userSignin("admin"); 

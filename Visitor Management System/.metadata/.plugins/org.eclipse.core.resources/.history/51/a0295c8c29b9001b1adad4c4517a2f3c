@@ -1,0 +1,5 @@
+package com.manage.system.configuration;
+
+public class WebSecurityConfiguration {
+
+}
