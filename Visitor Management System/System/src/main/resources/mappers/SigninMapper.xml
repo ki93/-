@@ -3,11 +3,18 @@
 <mapper namespace="com.manage.system.mapper.SigninMapper">
 	<select id="userSignin" parameterType="String"
 		resultType="String">
-		SELECT PWD FROM user WHERE USERID=#{userId}
+		SELECT PWD FROM USER WHERE USERID=#{userId}
 	</select>
 	<select id="getUserById" parameterType="String"
 		resultType="com.manage.system.security.CustomUserDetails">
-		SELECT * FROM USERS WHERE ID=#{id}
+		SELECT * FROM USER WHERE USERID=#{userId}
 	</select>
+	<select id="findByUsername" parameterType="String"
+		resultType="com.manage.system.security.CustomUserDetails">
+		SELECT * FROM USER WHERE USERID=#{userName}
+	</select>
+	<insert id="save" parameterType="com.manage.system.security.CustomUserDetails">
+		INSERT INTO USER ( USERID, PWD, USERTYPE, USERNAME, AUTH ) VALUES ( #{userId}, #{pwd}, #{userType},#{userName}, #{auth});
+	</insert> 
 </mapper>
 

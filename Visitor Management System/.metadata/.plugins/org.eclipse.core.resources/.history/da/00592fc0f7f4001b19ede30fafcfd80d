@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<!-- <script th:src="@{js/sample.js}"></script>
+ -->
+<th:block th:fragment="aDetail">
+	<div class="col-6 mx-auto mt-5 p-4 border border-primary rounded">
+		<h1 class="text-center pb-2">상세 내역</h1>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="user_id">신청자 ID</label>
+				<div class="border text-break" id="user_id">
+					<span class="align-middle p-1" th:text="|User1|"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="admin_id">담당자</label>
+				<div class="border text-break" id="admin_id">
+					<span class="align-middle p-1" th:text="|Admin|"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visit_place">방문 위치</label>
+				<div class="border text-break" id="visit_place">
+					<span class="align-middle p-1" th:text="|HN Inc|"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="application_state">요청 처리</label>
+				<div class="text-break" th:classappend="${nData}!='승인 대기'? 'border'" id="application_state" >
+					<span class="align-middle p-1" th:text="|승인|" th:if="${nData} == '승인'"></span> 
+					<span class="align-middle p-1" th:text="|거절|" th:if="${nData} == '거절'"></span> 
+					<span class="align-middle p-1" th:if="${nData} == '승인 대기'">
+						<button class="btn btn-sm btn-primary " th:text="|승인|"></button>
+						<button class="btn btn-sm btn-primary " th:text="|거절|"></button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visitor_num">연락처</label>
+				<div class="border text-break" id="visitor_num">
+					<span class="align-middle p-1" th:text="|010-1248-1245|"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="visitor_mail">메일</label>
+				<div class="border text-break" id="visitor_mail">
+					<span class="align-middle p-1" th:text="|asdfsf@naver.com|"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visit_date">방문 희망 날짜</label>
+				<div class="border text-break" id="visit_date">
+					<span class="align-middle p-1" th:text="|2021-08-04|"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="visitplace">신청 날짜</label>
+				<div class="border text-break" id="visitplace">
+					<span class="align-middle p-1" th:text="|2021-08-04|"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-lg-12">
+				<label for="visitplace">방문 사유</label>
+				<div class="border text-break" id="visitplace">
+					<span class="align-middle p-1"
+						th:text="|코로나 19 확산에 따른 건물 대규모 방역 작업이 필요함, 하루 종일 건물 방역 필요로...|"></span>
+				</div>
+			</div>
+		</div>
+
+		<a class="btn btn-primary float-right" th:href="@{/uApplyDetail}">신청
+			내역</a>
+	</div>
+	<script type="text/javascript">
+		
+	</script>
+</th:block>
+</html>

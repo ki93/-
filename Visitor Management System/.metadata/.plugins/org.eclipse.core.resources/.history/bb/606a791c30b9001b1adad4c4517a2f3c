@@ -1,8 +1,0 @@
-package com.manage.system.controller;
-
-import org.springframework.stereotype.Controller;
-
-@Controllero
-public class IndexController {
-
-}

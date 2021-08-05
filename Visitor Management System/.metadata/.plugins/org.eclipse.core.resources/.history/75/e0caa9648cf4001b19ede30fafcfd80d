@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layouts/layout}">
+<head>
+<!-- <script th:src="@{js/sample.js}"></script>
+ -->
+</head>
+<div layout:fragment="content" class="content container col-10 pt-2">
+	<!-- 	<div th:insert="${{data}} :: ${{data}}"></div>
+ -->
+	<th:block th:switch="${data}">
+		<div th:case="application"
+			th:insert="/fragments/application :: application" class="row application"></div>
+		<div th:case="applicationdetail"
+			th:insert="/fragments/application :: application" class="row application"></div>	
+	</th:block>
+
+</div>
+</html>

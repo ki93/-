@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/common.html :: html-head">
+<style>
+.container {
+display: inline-block;
+}
+</style>
+</head>
+<body>
+
+	<!-- 	<header class="row" th:replace="/common.html :: header"></header> -->
+	<header th:insert="/common.html :: header"></header>
+	<nav class="v-nav" th:insert="/common.html :: vertical-nav"></nav>
+	<div class="container" th:text="HI"></div>
+	<!--     <footer th:replace="/fragments/footer.html :: fragment-footer"></footer>
+ -->
+
+</body>
+</html>

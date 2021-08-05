@@ -11,10 +11,10 @@ public class TestServiceImpl implements TestService {
 	@Autowired
 	public SigninMapper mapper;
 
-	@Override
-	public String userSignin(String userId) {
-		// TODO Auto-generated method stub
-		return mapper.userSignin(userId);
-	}
+//	@Override
+//	public String userSignin(String userId) {
+//		// TODO Auto-generated method stub
+//		return mapper.userSignin(userId);
+//	}
 
 }

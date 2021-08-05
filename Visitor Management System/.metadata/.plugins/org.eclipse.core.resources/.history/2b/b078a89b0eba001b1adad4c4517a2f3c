@@ -1,7 +1,0 @@
-package com.manage.system.service;
-
-import org.springframework.stereotype.Service;
-
-public interface TestService {
-	public String userSignin(String userId);
-}

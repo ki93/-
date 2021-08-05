@@ -8,4 +8,6 @@ import com.manage.system.security.CustomUserDetails;
 public interface SigninMapper {
 	public String userSignin(String userId);
 	public CustomUserDetails getUserById (String id);
+	public CustomUserDetails findByUsername (String userName);
+	public void save (CustomUserDetails customUserDetails);
 }

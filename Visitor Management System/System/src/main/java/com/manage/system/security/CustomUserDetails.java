@@ -1,35 +1,49 @@
 package com.manage.system.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @SuppressWarnings("serial")
 public class CustomUserDetails implements UserDetails{
 
-	private String id;
-	private String password;
-	private String name;
+	@NotBlank
+	private String userId;
+	@NotBlank
+	private String pwd;
+	private int userType;
+	private String userName;
 	private String auth;
-	private int enabled;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
+		authList.add(new SimpleGrantedAuthority(auth));
+		return authList;
 	}
 
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return password;
+		return pwd;
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return id;
+		return userId;
 	}
 
 	@Override
@@ -53,14 +67,14 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return enabled==1?true:false;
+		return userType==1?true:false;
 	}
 	public String getName() {
-		return name;
+		return userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String userName) {
+		this.userName = userName;
 	}
 
 }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;System/src/main/resources/templates/menu.html&apos; to &apos;common.html&apos;" description="Rename resource &apos;menu.html&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/templates/menu.html" name="common.html" stamp="1622521757461" updateReferences="true"/>
+</session>

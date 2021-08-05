@@ -1,16 +1,19 @@
 package com.manage.system.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.manage.system.mapper.SigninMapper;
 
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService{
 
-	@Autowired
-	private SigninMapper signinMapper;
+	private final SigninMapper signinMapper;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -18,9 +21,10 @@ public class CustomUserDetailsService implements UserDetailsService{
 		if(users == null) {
 			 throw new UsernameNotFoundException("username " + username + " not found");
 		}
-		System.out.println("**************Found user***************");
-		System.out.println("id : " + users.getUsername());
 		return users;
 	}
-
+	
+	public void save(CustomUserDetails customUserDetails) {
+		signinMapper.save(customUserDetails);
+	}
 }
