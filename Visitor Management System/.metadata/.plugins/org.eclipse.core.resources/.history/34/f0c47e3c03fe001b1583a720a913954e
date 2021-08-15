@@ -19,7 +19,7 @@ spring.thymeleaf.suffix=.html
 # mail
 spring.mail.host=smtp.office365.com
 spring.mail.port=995
-spring.mail.username=
-spring.mail.password=
+spring.mail.username=sk.hong4150@hncorp.world
+spring.mail.password=@tnsmd100
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
