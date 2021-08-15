@@ -58,4 +58,7 @@ Backup of *.doc*
 
 # mail
 src/main/resources/application.properties
+*/application.properties
+
+
 
