@@ -1,0 +1,41 @@
+package com.manage.system.service;
+
+import org.springframework.stereotype.Service;
+
+import com.manage.system.dto.CustomUserDetails;
+import com.manage.system.mapper.SigninMapper;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ApplicationServiceImpl implements ApplicationService {
+
+	
+//	public SigninMapper mapper;
+//
+//	@Override
+//	public String userSignin(String userId) {
+//		// TODO Auto-generated method stub
+//		return mapper.userSignin(userId);
+//	}
+//
+//	@Override
+//	public CustomUserDetails getUserById(String user_id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public CustomUserDetails findByUsername(String user_name) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void save(CustomUserDetails customUserDetails) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+}

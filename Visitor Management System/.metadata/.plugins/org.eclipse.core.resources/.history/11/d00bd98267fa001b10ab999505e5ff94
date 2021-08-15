@@ -1,0 +1,11 @@
+package com.manage.system.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface ApplicationMapper {
+//	public String userSignin(String user_id);
+//	public CustomUserDetails getUserById (String user_id);
+//	public CustomUserDetails findByUsername (String user_name);
+//	public void save (CustomUserDetails customUserDetails);
+}

@@ -34,10 +34,10 @@ html, body {
 						class="h3 mb-3 font-weight-normal row justify-content-md-center">Please
 						Sign Up</div>
 
-					<label for="userId" class="sr-only">USER ID</label> <input
-						type="text" id="userId"
+					<label for="user_id" class="sr-only">USER ID</label> <input
+						type="text" id="user_id"
 						th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'"
-						name="userId" class="form-control row m-2" required autofocus>
+						name="user_id" class="form-control row m-2" required autofocus>
 
 					<div class="invalid-feedback row m-2"
 						th:if="${#fields.hasErrors('username')}" th:errors="*{username}">중복회원</div>
@@ -54,8 +54,8 @@ html, body {
 		<label for="password" class="sr-only">password_confirm</label> <input
 			type="password" id="password_confirm" name="password_confirm"
 			class="form-control" placeholder="password_confirm" required> -->
-					<label for="userName" class="sr-only">USER NAME</label> <input
-						type="text" id="userName" name="userName"
+					<label for="user_name" class="sr-only">USER NAME</label> <input
+						type="text" id="user_name" name="user_name"
 						class="form-control row m-2" placeholder="user name" required>
 
 					<button class="btn btn-md btn-primary btn-block row m-2"

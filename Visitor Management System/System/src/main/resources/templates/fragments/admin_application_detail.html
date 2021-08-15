@@ -4,7 +4,7 @@
 <!-- <script th:src="@{js/sample.js}"></script>
  -->
 <th:block th:fragment="admin_application_detail">
-	<div class="col-11 mx-auto mt-5 p-4">
+	<div class="col-11 mx-auto m-5 p-4">
 		<table class="table table-hover text-center">
 			<thead>
 				<tr>
@@ -19,35 +19,49 @@
 					<th scope="col" class="align-middle" th:text="|상세 내역|"></th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<th scope="row" class="align-middle" th:text="|1|"></th>
-					<td class="align-middle" th:text="|2021-08-04|"></td>
-					<td class="align-middle" th:text="|2021-08-04|"></td>
-					<td class="align-middle" th:text="|2021-08-04|"></td>
-					<td class="align-middle" th:text="|HN Inc|"></td>
-					<td class="align-middle" th:text="|방역|"></td>
-					<td class="align-middle" th:text="|admin|"></td>
-					<td class="align-middle" th:text="|승인|" th:if="${nData} == '승인'"></td>
-					<td class="align-middle" th:text="|거절|" th:if="${nData} == '거절'"></td>
-					<td class="align-middle" th:if="${nData} == '승인 대기'">
-						<button class="btn btn-primary " th:text="|승인|"></button>
-						<button class="btn btn-primary " th:text="|거절|"
-							data-toggle="modal" data-target="#exampleModal"></button>
-					</td>
+			<tbody class="tbody" th:data-listsize="${List.size}">
+				<tr th:each="applicationDTO,i:${List}"
+					th:class="'page-'+${i.size%10==0? i.size/10-(i.size-i.index-1)/10:i.size/10+1-(i.size-i.index-1)/10}">
+					<th scope="row" class="align-middle" th:text="${i.size}-${i.index}">
+					<td class="align-middle" id="application_date"
+						th:text="${applicationDTO.application_date}"></td>
+					<td class="align-middle" id="visit_date"
+						th:text="${applicationDTO.visit_date}"></td>
+					<td class="align-middle" th:text="${applicationDTO.user_id}"></td>
+					<td class="align-middle" th:text="${applicationDTO.visit_place}"></td>
+					<td class="align-middle" th:text="${applicationDTO.visit_reason}"></td>
+					<td class="align-middle" th:if="${#maps.size(applicationDTO)} == 9"
+						th:text="|승인 대기|"></td>
+
+					<td class="align-middle"
+						th:unless="${#maps.size(applicationDTO)} == 9"
+						th:text="${applicationDTO.admin_id}"></td>
+					<td class="align-middle"
+						th:text="${applicationDTO.application_state}"
+						th:if="${applicationDTO.application_state} == '승인'"></td>
+					<td class="align-middle"
+						th:text="${applicationDTO.application_state}"
+						th:if="${applicationDTO.application_state} == '거절'"></td>
+					<td class="align-middle"
+						th:if="${applicationDTO.application_state} == '승인 대기'"><a
+						class="btn btn-primary " th:text="|승인|"
+						th:href="@{'/updateApplication/'+${applicationDTO.application_num}}"></a>
+						<button class="btn btn-primary refuseButton" th:text="|거절|"
+							data-toggle="modal" data-target="#exampleModal"
+							th:data-notifynum="${applicationDTO.application_num}"
+							th:data-notifyid="${applicationDTO.user_id}"></button></td>
 					<td class="align-middle"><a class="btn btn-secondary "
-						th:href="@{/aDetail}" th:text="|보기|"></a></td>
+						th:href="@{'/aDetail/'+${applicationDTO.application_num}}"
+						th:text="|보기|"></a></td>
 				</tr>
 			</tbody>
 		</table>
 		<nav aria-label="Page navigation example">
 			<ul class="pagination justify-content-center">
-				<li class="page-item disabled"><a class="page-link" href="#"
-					tabindex="-1" aria-disabled="true">Previous</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				<li class="page-item"
+					th:each="i:${#numbers.sequence(0,((List.size-1)-((List.size-1)%10))/10)}"
+					th:id="'page-navi-'+(${i}+1)" th:data-page-navi="${i}+1"><button
+						class="page-link" th:text="${i}+1" style='cursor: pointer'></button></li>
 			</ul>
 		</nav>
 	</div>
@@ -65,11 +79,12 @@
 				</div>
 				<div class="modal-body container">
 					<div class="row">
-						<div class="col-12"
+						<div class="col-12 modal-descript"
 							th:text="|User1의 방문요청을 거절합니다. 거절 한 요청은 복구할 수 없습니다. 진행하시겠습니까?|">
 						</div>
 					</div>
-					<form action="post" enctype="text/plain">
+					<form class="refuse-form" th:action="@{/updateApplication}"
+						th:object="${application}" method="post">
 
 						<div class="row mt-3">
 							<div class="col-12">
@@ -77,7 +92,8 @@
 								<div class="form-row">
 									<div class="form-group col-lg-12">
 										<textarea class="form-control"
-											id="exampleFormControlTextarea1" rows="3"></textarea>
+											id="exampleFormControlTextarea1" rows="3"
+											name="refuse_reason"></textarea>
 									</div>
 								</div>
 							</div>
@@ -92,5 +108,51 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var modal = $('#exampleModal')[0];
+		$('.refuseButton')
+				.click(
+						function() {
+							var application_num = $(this).data('notifynum');
+							var user_id = $(this).data('notifyid')
+									.toUpperCase();
+							$('.modal-descript')
+									.text(
+											user_id
+													+ " 의 방문요청을 거절합니다. 거절 한 요청은 복구할 수 없습니다. 진행하시겠습니까?");
+							$('.refuse-form').attr("action",
+									"/updateApplication/" + application_num);
+						})
+						
+		var list_size = $('.tbody').data("listsize");
+		var totalpage = Math.ceil(list_size / 10);
+		$(document).ready(function() {
+			console.log($("#page-navi-1").data("page-navi"));
+			startPagination();
+		})
+
+		$(".page-link").click(function(){
+			var cur_num = $(".active").text();
+			var next_num = $(this).text();
+			var cur_page = ".page-"+cur_num;
+			var cur_page_navi = "#page-navi-"+ cur_num;
+			var next_page = ".page-"+next_num;
+			var next_page_navi = "#page-navi-"+ next_num;
+			$(cur_page).addClass("d-none");
+			$(cur_page_navi).removeClass("active");
+			$(next_page).removeClass("d-none");
+			$(next_page_navi).addClass("active");
+
+		});
+
+		
+	
+		function startPagination(){
+			$("#page-navi-1").addClass("active");
+			for(i=2;i<=totalpage;i++){
+				$(".page-"+i).addClass("d-none");
+			}
+		}
+	</script>
 </th:block>
 </html>

@@ -1,0 +1,26 @@
+package com.manage.system.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequiredArgsConstructor
+public class AdminController {
+
+	@RequestMapping("uApplyDetail")
+	public ModelAndView uApplyDetail(Model model) {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("data", "user_application_detail");
+		return mv;
+	}
+	@RequestMapping("uDetail")
+	public ModelAndView uDetail(Model model) {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("data", "uDetail");
+		return mv;
+	}
+}

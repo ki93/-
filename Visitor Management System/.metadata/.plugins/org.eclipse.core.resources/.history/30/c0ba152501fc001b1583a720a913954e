@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<!-- <script th:src="@{js/sample.js}"></script>
+ -->
+<th:block th:fragment="uDetail">
+	<div class="col-6 mx-auto mt-5 p-4 border border-primary rounded">
+		<h1 class="text-center pb-2">상세 내역</h1>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visit_place">방문 위치</label>
+				<div class="border text-break" id="visit_place">
+					<span class="align-middle p-1" th:text="${apply.visit_place}"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="application_state">요청 상태</label>
+				<div class="border text-break" id="application_state">
+					<span class="align-middle p-1" th:text="${apply.application_state}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visitor_num">연락처</label>
+				<div class="border text-break" id="visitor_num">
+					<span class="align-middle p-1" th:text="${apply.visitor_num}"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="visitor_mail">메일</label>
+				<div class="border text-break" id="visitor_mail">
+					<span class="align-middle p-1" th:text="${apply.visitor_mail}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visit_date">방문 희망 날짜</label>
+				<div class="border text-break" id="visit_date">
+					<span class="align-middle p-1" th:text="${apply.visit_date}"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="application_date">신청 날짜</label>
+				<div class="border text-break" id="application_date">
+					<span class="align-middle p-1" th:text="${apply.application_date}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-lg-12">
+				<label for="visit_reason">방문 사유</label>
+				<div class="border text-break" id="visit_reason">
+					<span class="align-middle p-1" th:text="${apply.visit_reason}"></span>
+				</div>
+			</div>
+		</div>
+
+		<a class="btn btn-primary float-right" th:href="@{/uApplyDetail}">신청
+			내역</a>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			console.log(changeDateFormat($('#visit_date').text()))
+		})
+		function changeDateFormat(data) {
+			const arr = data.split(" ");
+			var temp = new Date(arr[1]+arr[2]+","+arr[5].substring(0,4))
+			date = arr[5].substring(0,4)+"-"+ +"-"+arr[2]
+			return date;
+		}
+	</script>
+</th:block>
+</html>

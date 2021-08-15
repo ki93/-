@@ -1,0 +1,19 @@
+package com.manage.system.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.manage.system.dto.ApplicationDTO;
+
+import antlr.collections.List;
+
+@Mapper
+public interface ApplicationMapper {
+	public ApplicationDTO selectApplication(Integer application_num);
+	public List<ApplicationDTO> selectAllApplication(Integer application_num);
+	public void insertApplication(ApplicationDTO applicationDTO);
+	public void updateApplication(Integer application_num, ApplicationDTO applicationDTO);
+	
+//	public CustomUserDetails getUserById (String user_id);
+//	public CustomUserDetails findByUsername (String user_name);
+//	public void save (CustomUserDetails customUserDetails);
+}

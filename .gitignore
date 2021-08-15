@@ -55,3 +55,7 @@ Backup of *.doc*
 
 # excluding folder
 참고자료/
+
+# mail
+src/main/resources/application.properties
+
