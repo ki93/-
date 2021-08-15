@@ -60,5 +60,5 @@ Backup of *.doc*
 src/main/resources/application.properties
 */application.properties
 System/src/main/resources/application.properties
-
-
+-/Visitor Management System/System/src/main/resources/application.properties
+Visitor Management System/System/src/main/resources/application.properties
