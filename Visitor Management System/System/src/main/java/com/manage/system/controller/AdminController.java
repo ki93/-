@@ -1,5 +1,8 @@
 package com.manage.system.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.manage.system.dto.ApplicationDTO;
+import com.manage.system.dto.MailDTO;
 import com.manage.system.service.ApplicationService;
+import com.manage.system.service.MailService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 	
 	private final ApplicationService applicationService;
+	private final MailService mailService;
 
 	@RequestMapping("aApplyDetail")
 	public ModelAndView aApplyDetail() {
@@ -36,14 +42,34 @@ public class AdminController {
 	}
 	@RequestMapping("updateApplication/{application_num}")
 	public String updateApplication(@PathVariable("application_num") int application_num ,ApplicationDTO applicationDTO) {
+		String application_state;
+		MailDTO mailDTO;
 		if(applicationDTO.getRefuse_reason()!=null) {
 			applicationDTO.setAdmin_id(SecurityContextHolder.getContext().getAuthentication().getName());
 			applicationDTO.setApplication_state("거절");
+			application_state = "거절";
 		}else {
 			applicationDTO.setAdmin_id(SecurityContextHolder.getContext().getAuthentication().getName());
 			applicationDTO.setApplication_state("승인");
+			application_state = "승인";
 		}
 		applicationService.modifyApplication(applicationDTO);
+		ApplicationDTO application = applicationService.getApplication(application_num);
+		if(application.getRefuse_reason()!=null) {
+			mailDTO = new MailDTO(application.getVisitor_mail(),"방문 요청 처리 결과 안내",
+					"귀하가 방문 신청한 요청이 "+application.getApplication_state()+"되었습니다.\n"+"방문 사유 : "+application.getVisit_reason()
+					+"\n방문 신청 일 : "+changeDateFormat(application.getApplication_date())+"\n거절 사유 : "+application.getRefuse_reason());
+		}else {
+			mailDTO = new MailDTO(application.getVisitor_mail(),"방문 요청 처리 결과 안내",
+					"귀하가 방문 신청한 요청이 "+application.getApplication_state()+"되었습니다.\n"+"방문 사유 : "+application.getVisit_reason()+
+					"\n방문 신청 일 : "+changeDateFormat(application.getApplication_date()));	
+		}
+		mailService.mailSend(mailDTO);
 		return "redirect:/aApplyDetail";
+	}
+	String changeDateFormat(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String stringDate =simpleDateFormat.format(date);
+		return stringDate;
 	}
 }

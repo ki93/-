@@ -1,0 +1,26 @@
+# 포트 설정
+server.port = 8090
+# 자동 리로드
+spring.devtools.livereload.enabled=true
+# Maria DB 연결
+spring.datasource.hikari.driver-class-name=org.mariadb.jdbc.Driver
+#spring.datasource.hikari.jdbc-url=jdbc:mariadb://9.8.100.215:3306/hnrnd?characterEncoding=UTF-8&serverTimezone=UTC
+spring.datasource.hikari.jdbc-url=jdbc:mariadb://211.54.55.115:3306/hnrnd?characterEncoding=UTF-8&serverTimezone=UTC
+spring.datasource.hikari.username=hndid
+spring.datasource.hikari.password=hndid100!
+spring.datasource.hikari.connection-test-query=SELECT 1
+# 본적으로 Spring Boot는 다음 폴더의 정적 리소스 만 제공(/META-INF/resources/,/resources/,/static/,/public/)
+# 타임리프 사용 설정
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.cache=false
+spring.thymeleaf.check-template-location=true
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+# mail
+spring.mail.host=smtp.gmail.com
+#spring.mail.port=995
+spring.mail.port=587
+spring.mail.username=kiih0093@gmail.com
+spring.mail.password=@H4150100
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true

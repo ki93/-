@@ -47,13 +47,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/signin")
 					.defaultSuccessUrl("/") // 로그인 성공 시 이동할 경로.
-					.failureUrl("/signin?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸
-					.permitAll().
+					.failureUrl("/signin?error=true"). // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸
 					and()
 				.logout()
 					.permitAll()
 					.logoutUrl("/signout")
-					.logoutSuccessUrl("/")
+					.logoutSuccessUrl("/signin")
 					.and()
 				.exceptionHandling().accessDeniedPage("/accessDenied_page"); // 권한이 없는 대상이 접속을시도했을 때
 	}

@@ -1,7 +1,12 @@
 package com.manage.system.controller;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
 import javax.validation.Valid;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +31,17 @@ public class IndexController {
 	
 	@RequestMapping("/")
 	public String index(Model model) {
-		return "index";
+		String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+		if(role.equals("[ROLE_ADMIN]")) {
+			return "redirect:/aApplyDetail";
+		}else {
+			return "redirect:/apply";
+		}
 	}
 	
 	@GetMapping("/signin")
 	public String signin() {
+		System.out.println("??");
 		return "signin";
 	}
 
