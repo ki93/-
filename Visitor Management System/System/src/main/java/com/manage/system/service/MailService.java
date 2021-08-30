@@ -24,7 +24,6 @@ public class MailService {
 		message.setSubject(mailDTO.getTitle());
 		message.setText(mailDTO.getMessage());
 		message.setSentDate(new Date());
-		System.out.println(message.toString());
 		javaMailSender.send(message);
 	}
 	

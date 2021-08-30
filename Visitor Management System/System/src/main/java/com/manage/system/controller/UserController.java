@@ -1,17 +1,26 @@
 package com.manage.system.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manage.system.dto.ApplicationDTO;
 import com.manage.system.service.ApplicationService;
 
@@ -23,7 +32,7 @@ public class UserController {
 	
 	private final ApplicationService applicationService;
 
-	@GetMapping("apply")
+	@GetMapping("/user/apply")
 	public ModelAndView application() {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("data", "application");
@@ -31,22 +40,38 @@ public class UserController {
 		mv.addObject("applicationDTO", new ApplicationDTO());
 		return mv;
 	}
-	@PostMapping("apply")
-	public String apply(ApplicationDTO applicationDTO) {
-		applicationDTO.setVisit_date(UtilDateToSqlDate(applicationDTO.getVisit_date())); 
-		applicationDTO.setApplication_date(UtilDateToSqlDate(new Date()));
-		applicationDTO.setApplication_state("승인 대기");
-		applicationService.registerApplication(applicationDTO);
-		return "redirect:/uApplyDetail";
+	@PostMapping("/user/apply")
+	public void apply(@RequestBody String	json, HttpServletResponse response) {		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			ApplicationDTO applicationDTO = mapper.readValue(json, ApplicationDTO.class);
+			applicationDTO.setVisit_date(UtilDateToSqlDate(applicationDTO.getVisit_date())); 
+			applicationDTO.setApplication_date(UtilDateToSqlDate(new Date()));
+			applicationDTO.setApplication_state("승인 대기");
+			System.out.println(applicationDTO);
+			applicationService.registerApplication(applicationDTO);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			response.getWriter().print(true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	@RequestMapping("uApplyDetail")
+	@RequestMapping("/user/uApplyDetail")
 	public ModelAndView uApplyDetail() {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("data", "user_application_detail");
 		mv.addObject("List", applicationService.getAllUserApplication(SecurityContextHolder.getContext().getAuthentication().getName()));
 		return mv;
 	}
-	@RequestMapping("uDetail/{application_num}")
+	@RequestMapping("/user/uDetail/{application_num}")
 	public ModelAndView uDetail(@PathVariable("application_num") int application_num) throws ParseException {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("data", "uDetail");

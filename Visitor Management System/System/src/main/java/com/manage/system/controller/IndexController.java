@@ -33,15 +33,14 @@ public class IndexController {
 	public String index(Model model) {
 		String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 		if(role.equals("[ROLE_ADMIN]")) {
-			return "redirect:/aApplyDetail";
+			return "redirect:/admin/aApplyDetail";
 		}else {
-			return "redirect:/apply";
+			return "redirect:/user/apply";
 		}
 	}
 	
 	@GetMapping("/signin")
 	public String signin() {
-		System.out.println("??");
 		return "signin";
 	}
 

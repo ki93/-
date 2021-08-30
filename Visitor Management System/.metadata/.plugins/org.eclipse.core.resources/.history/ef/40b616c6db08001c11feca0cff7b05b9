@@ -1,0 +1,69 @@
+package com.manage.system.controller;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.manage.system.dto.ApplicationDTO;
+import com.manage.system.service.ApplicationService;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequiredArgsConstructor
+public class UserController {
+	
+	private final ApplicationService applicationService;
+
+	@GetMapping("/user/apply")
+	public ModelAndView application() {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("data", "application");
+		mv.addObject("user_id", SecurityContextHolder.getContext().getAuthentication().getName());
+		mv.addObject("applicationDTO", new ApplicationDTO());
+		return mv;
+	}
+	@PostMapping("/user/apply")
+	public String apply(ApplicationDTO applicationDTO, @RequestBody JSONObject
+			json, HttpServletResponse response) {
+//		applicationDTO.setVisit_date(UtilDateToSqlDate(applicationDTO.getVisit_date())); 
+//		applicationDTO.setApplication_date(UtilDateToSqlDate(new Date()));
+//		applicationDTO.setApplication_state("승인 대기");
+//		applicationService.registerApplication(applicationDTO);
+		System.out.println(applicationDTO);
+		System.out.println(json
+				);
+		return "";
+	}
+	@RequestMapping("/user/uApplyDetail")
+	public ModelAndView uApplyDetail() {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("data", "user_application_detail");
+		mv.addObject("List", applicationService.getAllUserApplication(SecurityContextHolder.getContext().getAuthentication().getName()));
+		return mv;
+	}
+	@RequestMapping("/user/uDetail/{application_num}")
+	public ModelAndView uDetail(@PathVariable("application_num") int application_num) throws ParseException {
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("data", "uDetail");
+		mv.addObject("apply", applicationService.getApplication(application_num));
+		return mv;
+	} 
+	java.sql.Date UtilDateToSqlDate(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqldate =java.sql.Date.valueOf(simpleDateFormat.format(date));
+		return sqldate;
+	}
+}

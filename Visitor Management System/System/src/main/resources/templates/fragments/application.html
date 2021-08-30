@@ -6,7 +6,7 @@
 <th:block th:fragment="application">
 	<div class="col-6 mx-auto mt-5 p-4 border border-primary rounded">
 		<h1 class="text-center pb-2">방문 신청</h1>
-		<form th:action="@{/apply}" th:object="${applicationDTO}" method="post">
+		<form class="form" th:object="${applicationDTO}">
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="visit_place">방문위치</label> <select class="form-control"
@@ -40,12 +40,13 @@
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="visitor_num">휴대번호</label> <input type="text"
-						class="form-control" name="visitor_num" id="visitor_num" 
+						class="form-control" name="visitor_num" id="visitor_num"
 						maxlength="13" placeholder="휴대번호" required>
 				</div>
 				<div class="form-group col-md-6">
 					<label for="visitor_mail">Email</label> <input type="email"
-						class="form-control" id="visitor_mail" name="visitor_mail" required>
+						class="form-control" id="visitor_mail" name="visitor_mail"
+						required>
 				</div>
 			</div>
 
@@ -53,23 +54,42 @@
 			<div class="form-row">
 				<div class="form-group col-lg-12">
 					<label for="exampleFormControlTextarea1">방문사유</label>
-					<textarea class="form-control" id="exampleFormControlTextarea1" name="visit_reason"
-						rows="3"></textarea>
+					<textarea class="form-control" id="exampleFormControlTextarea1"
+						name="visit_reason" rows="3"></textarea>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary float-right">신청</button>
+			<button type="button" class="btn btn-primary float-right form-btn">신청</button>
 		</form>
+		<!-- Modal -->
+		<div class="modal fade" id="alertModal" tabindex="-1"
+			aria-labelledby="alertModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="alertModalLabel" th:text="|방문 신청이 완료 됐습니다.|"></h5>
+					</div>
+					<div class="modal-body container">
+						<div class="float-right">
+							<a type="button" class="btn btn-primary" th:href="@{/user/uApplyDetail}">확인</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
 	<script type="text/javascript">
 		$(function() {
 			$('#datetimepicker1').datetimepicker({
-				format : 'L'
+				/* format : 'L' */
+				format : 'YYYY-MM-DD'
 			});
 		});
 		$('#visitor_num').keyup(function() {
 			//휴대번호
 			var reg1 = /[^0-9]/g;
-			var number =$(this).val().replace(/[^0-9]/g, "");
+			var number = $(this).val().replace(/[^0-9]/g, "");
 			var phone = "";
 			if (number.length < 4) {
 				phone = number;
@@ -91,6 +111,24 @@
 				phone += number.substr(7);
 			}
 			$(this).val(phone);
+		})
+		$(document).ready(function() {
+			$('.form-btn').click(function() {
+				console.log(($('.form').serializeObject()));
+				$.ajax({
+					url : '/user/apply',
+					type : 'POST',
+					dataType : 'json',
+					contentType : 'application/json; charset=utf-8',
+					data : JSON.stringify($('.form').serializeObject()),
+					success : function(data) {
+						var alertModal = new bootstrap.Modal(document.getElementById('alertModal'), {
+							  keyboard: false
+							})
+						alertModal.toggle()
+					}
+				})
+			})
 		})
 	</script>
 </th:block>

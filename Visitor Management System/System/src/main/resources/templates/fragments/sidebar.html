@@ -4,9 +4,9 @@
 
 	<!-- Sidebar -->
 	<ul class="sidebar p-0 m-0 col-2 text-center">
-		<li><a th:href="@{/aApplyDetail}" sec:authorize="hasRole('ADMIN')">신청 내역 관리</a></li>
-		<li><a th:href="@{/apply}" sec:authorize="hasRole('USER')">방문 신청</a></li>
-		<li><a th:href="@{/uApplyDetail}" sec:authorize="hasRole('USER')">신청 내역</a></li>
+		<li><a th:href="@{/admin/aApplyDetail}" sec:authorize="hasRole('ADMIN')">신청 내역 관리</a></li>
+		<li><a th:href="@{/user/apply}" sec:authorize="hasRole('USER')">방문 신청</a></li>
+		<li><a th:href="@{/user/uApplyDetail}" sec:authorize="hasRole('USER')">신청 내역</a></li>
 
 	</ul>
 

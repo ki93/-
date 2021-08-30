@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<!-- <script th:src="@{js/sample.js}"></script>
+ -->
+<th:block th:fragment="application">
+	<div class="col-6 mx-auto mt-5 p-4 border border-primary rounded">
+		<h1 class="text-center pb-2">방문 신청</h1>
+		<form class="form" th:object="${applicationDTO}">
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="visit_place">방문위치</label> <select class="form-control"
+						id="visit_place" name="visit_place" required>
+						<option>HN Inc</option>
+						<option>HN Innovalley</option>
+						<option>HNX</option>
+						<option>Hdac</option>
+					</select>
+				</div>
+				<input type="hidden" name="user_id" th:value="${user_id}">
+
+				<div class="form-group col-md-6">
+					<label for="visit_date">방문날짜</label>
+					<div class="input-group date" id="datetimepicker1"
+						data-target-input="nearest">
+						<input type="text"
+							class="form-control visit_date datetimepicker-input"
+							data-target="#datetimepicker1" name="visit_date" required>
+						<div class="input-group-append" data-target="#datetimepicker1"
+							data-toggle="datetimepicker">
+							<div class="input-group-text">
+								<i class="fa fa-calendar"></i>
+							</div>
+						</div>
+					</div>
+					<!-- <label for="inputPassword4">Password</label> <input type="password"
+						class="form-control" id="inputPassword4"> -->
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="visitor_num">휴대번호</label> <input type="text"
+						class="form-control" name="visitor_num" id="visitor_num" 
+						maxlength="13" placeholder="휴대번호" required>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="visitor_mail">Email</label> <input type="email"
+						class="form-control" id="visitor_mail" name="visitor_mail" required>
+				</div>
+			</div>
+
+
+			<div class="form-row">
+				<div class="form-group col-lg-12">
+					<label for="exampleFormControlTextarea1">방문사유</label>
+					<textarea class="form-control" id="exampleFormControlTextarea1" name="visit_reason"
+						rows="3"></textarea>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary float-right form-btn">신청</button>
+		</form>
+				<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel" th:text="|요청 거절|"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body container">
+						<div class="row">
+							<div class="col-12"
+								text="의 방문요청을 거절합니다. 거절 한 요청은 복구할 수 없습니다. 진행하시겠습니까?|">
+							</div>
+						</div>
+						<form>
+
+							<div class="row mt-3">
+								<div class="col-12">
+									<label for="refuse_reason" th:text="|거절 사유|"></label>
+									<div class="form-row">
+										<div class="form-group col-lg-12">
+											<textarea class="form-control"
+												id="exampleFormControlTextarea1" rows="3"
+												name="refuse_reason"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="float-right">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">취소</button>
+								<button type="submit" class="btn btn-primary">확인</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<script type="text/javascript">
+		$(function() {
+			$('#datetimepicker1').datetimepicker({
+ 				/* format : 'L' */
+ 				format : 'YYYY-MM-DD'
+			});
+		});
+		$('#visitor_num').keyup(function() {
+			//휴대번호
+			var reg1 = /[^0-9]/g;
+			var number =$(this).val().replace(/[^0-9]/g, "");
+			var phone = "";
+			if (number.length < 4) {
+				phone = number;
+			} else if (number.length < 7) {
+				phone += number.substr(0, 3);
+				phone += "-";
+				phone += number.substr(3);
+			} else if (number.length < 11) {
+				phone += number.substr(0, 3);
+				phone += "-";
+				phone += number.substr(3, 3);
+				phone += "-";
+				phone += number.substr(6);
+			} else {
+				phone += number.substr(0, 3);
+				phone += "-";
+				phone += number.substr(3, 4);
+				phone += "-";
+				phone += number.substr(7);
+			}
+			$(this).val(phone);
+		})
+		$(document).ready(function(){
+			$('.form-btn').click(function(){
+				console.log(($('.form').serializeObject()));
+ 				$.ajax({
+					url:'/user/apply',
+					type:'POST',
+					dataType:'json',
+					contentType: 'application/json; charset=utf-8',
+					data : JSON.stringify($('.form').serializeObject()),
+					success : function(data){
+						console.log(data);
+						alert(data);
+						var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+							  keyboard: false
+							})
+						myModal.toggle()
+					}
+				})
+			})
+		})
+	</script>
+</th:block>
+</html>

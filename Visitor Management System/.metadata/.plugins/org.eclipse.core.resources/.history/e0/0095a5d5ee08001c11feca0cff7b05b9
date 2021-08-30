@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<!-- <script th:src="@{js/sample.js}"></script>
+ -->
+<th:block th:fragment="application">
+	<div class="col-6 mx-auto mt-5 p-4 border border-primary rounded">
+		<h1 class="text-center pb-2">방문 신청</h1>
+		<form class="form" th:object="${applicationDTO}">
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="visit_place">방문위치</label> <select class="form-control"
+						id="visit_place" name="visit_place" required>
+						<option>HN Inc</option>
+						<option>HN Innovalley</option>
+						<option>HNX</option>
+						<option>Hdac</option>
+					</select>
+				</div>
+				<input type="hidden" name="user_id" th:value="${user_id}">
+
+				<div class="form-group col-md-6">
+					<label for="visit_date">방문날짜</label>
+					<div class="input-group date" id="datetimepicker1"
+						data-target-input="nearest">
+						<input type="text"
+							class="form-control visit_date datetimepicker-input"
+							data-target="#datetimepicker1" name="visit_date" required>
+						<div class="input-group-append" data-target="#datetimepicker1"
+							data-toggle="datetimepicker">
+							<div class="input-group-text">
+								<i class="fa fa-calendar"></i>
+							</div>
+						</div>
+					</div>
+					<!-- <label for="inputPassword4">Password</label> <input type="password"
+						class="form-control" id="inputPassword4"> -->
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="visitor_num">휴대번호</label> <input type="text"
+						class="form-control" name="visitor_num" id="visitor_num"
+						maxlength="13" placeholder="휴대번호" required>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="visitor_mail">Email</label> <input type="email"
+						class="form-control" id="visitor_mail" name="visitor_mail"
+						required>
+				</div>
+			</div>
+
+
+			<div class="form-row">
+				<div class="form-group col-lg-12">
+					<label for="exampleFormControlTextarea1">방문사유</label>
+					<textarea class="form-control" id="exampleFormControlTextarea1"
+						name="visit_reason" rows="3"></textarea>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary float-right form-btn">신청</button>
+		</form>
+
+		<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+				d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+  </symbol>
+
+</svg>
+
+		<div class="alert alert-primary d-flex align-items-center"
+			role="alert">
+			<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+				aria-label="Info:">
+				<use xlink:href="#info-fill" /></svg>
+			<div>An example alert with an icon</div>
+		</div>
+		<div class="alert alert-success d-flex align-items-center"
+			role="alert">
+			<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+				aria-label="Success:">
+				<use xlink:href="#check-circle-fill" /></svg>
+			<div>An example success alert with an icon</div>
+		</div>
+		<div class="alert alert-warning d-flex align-items-center"
+			role="alert">
+			<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+				aria-label="Warning:">
+				<use xlink:href="#exclamation-triangle-fill" /></svg>
+			<div>An example warning alert with an icon</div>
+		</div>
+		<div class="alert alert-danger d-flex align-items-center" role="alert">
+			<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+				aria-label="Danger:">
+				<use xlink:href="#exclamation-triangle-fill" /></svg>
+			<div>An example danger alert with an icon</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		$(function() {
+			$('#datetimepicker1').datetimepicker({
+				/* format : 'L' */
+				format : 'YYYY-MM-DD'
+			});
+		});
+		$('#visitor_num').keyup(function() {
+			//휴대번호
+			var reg1 = /[^0-9]/g;
+			var number = $(this).val().replace(/[^0-9]/g, "");
+			var phone = "";
+			if (number.length < 4) {
+				phone = number;
+			} else if (number.length < 7) {
+				phone += number.substr(0, 3);
+				phone += "-";
+				phone += number.substr(3);
+			} else if (number.length < 11) {
+				phone += number.substr(0, 3);
+				phone += "-";
+				phone += number.substr(3, 3);
+				phone += "-";
+				phone += number.substr(6);
+			} else {
+				phone += number.substr(0, 3);
+				phone += "-";
+				phone += number.substr(3, 4);
+				phone += "-";
+				phone += number.substr(7);
+			}
+			$(this).val(phone);
+		})
+		$(document).ready(function() {
+			$('.form-btn').click(function() {
+				console.log(($('.form').serializeObject()));
+				$.ajax({
+					url : '/user/apply',
+					type : 'POST',
+					dataType : 'json',
+					contentType : 'application/json; charset=utf-8',
+					data : JSON.stringify($('.form').serializeObject()),
+					success : function(data) {
+						console.log(data);
+						alert(data);
+					}
+				})
+			})
+		})
+	</script>
+</th:block>
+</html>

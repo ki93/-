@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<!-- <script th:src="@{js/sample.js}"></script>
+ -->
+<th:block th:fragment="aDetail">
+	<div class="col-6 mx-auto m-5 p-4 border border-primary rounded">
+		<h1 class="text-center pb-2">상세 내역</h1>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="user_id">신청자 ID</label>
+				<div class="border text-break" id="user_id">
+					<span class="align-middle p-1" th:text="${apply.user_id}"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="admin_id">담당자</label>
+				<div class="border text-break" id="admin_id">
+					<span class="align-middle p-1" th:text="${apply.admin_id}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visit_place">방문 위치</label>
+				<div class="border text-break" id="visit_place">
+					<span class="align-middle p-1" th:text="${apply.visit_place}"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="application_state">요청 처리</label>
+				<div class="text-break"
+					th:classappend="${apply.application_state} !='승인 대기'? 'border'"
+					id="application_state">
+					<span class="align-middle p-1" th:text="|승인|"
+						th:if="${apply.application_state} == '승인'"></span> <span
+						class="align-middle p-1" th:text="|거절|"
+						th:if="${apply.application_state} == '거절'"></span> <span
+						class="align-middle p-1"
+						th:if="${apply.application_state} == '승인 대기'"> <button
+						class="btn btn-sm btn-primary btn-approve" th:data-value="${apply.application_num}"
+						th:text="|승인|"></button>
+						<button class="btn btn-sm btn-primary " th:text="|거절|"
+							data-toggle="modal" data-target="#exampleModal"></button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visitor_num">연락처</label>
+				<div class="border text-break" id="visitor_num">
+					<span class="align-middle p-1" th:text="${apply.visitor_num}"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="visitor_mail">메일</label>
+				<div class="border text-break" id="visitor_mail">
+					<span class="align-middle p-1" th:text="${apply.visitor_mail}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<label for="visit_date">방문 희망 날짜</label>
+				<div class="border text-break" id="visit_date">
+					<span class="align-middle p-1" th:text="${apply.visit_date}"></span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="application_date">신청 날짜</label>
+				<div class="border text-break" id="application_date">
+					<span class="align-middle p-1" th:text="${apply.application_date}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2">
+			<div class="col-lg-12">
+				<label for="visit_reason">방문 사유</label>
+				<div class="border text-break" id="visit_reason">
+					<span class="align-middle p-1" th:text="${apply.visit_reason}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-2" th:if="${apply.refuse_reason} != null">
+			<div class="col-lg-12">
+				<label for="refuse_reason">거절 사유</label>
+				<div class="border text-break" id="refuse_reason">
+					<span class="align-middle p-1" th:text="${apply.refuse_reason}"></span>
+				</div>
+			</div>
+		</div>
+
+		<a class="btn btn-primary float-right" th:href="@{/admin/aApplyDetail}">신청
+			내역</a>
+		<!-- Form Modal -->
+		<div class="modal fade" id="formModal" tabindex="-1"
+			aria-labelledby="formModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="formModalLabel" th:text="|요청 거절|"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body container">
+						<div class="row">
+							<div class="col-12"
+								th:text="${apply.user_id}+| 의 방문요청을 거절합니다. 거절 한 요청은 복구할 수 없습니다. 진행하시겠습니까?|">
+							</div>
+						</div>
+						<form
+							th:action="@{'/admin/updateApplication/'+${apply.application_num}}"
+							th:object="${application}" method="post">
+
+							<div class="row mt-3">
+								<div class="col-12">
+									<label for="refuse_reason" th:text="|거절 사유|"></label>
+									<div class="form-row">
+										<div class="form-group col-lg-12">
+											<textarea class="form-control"
+												id="exampleFormControlTextarea1" rows="3"
+												name="refuse_reason"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="float-right">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">취소</button>
+								<button type="submit" class="btn btn-primary">확인</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Alert Modal -->
+		<div class="modal fade" id="alertModal" tabindex="-1"
+			aria-labelledby="alertModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="alertModalLabel" th:text="|방문 신청이 완료 됐습니다.|"></h5>
+					</div>
+					<div class="modal-body container">
+						<div class="float-right">
+							<a type="button" class="btn btn-primary" th:href="@{/user/uApplyDetail}">확인</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var modal = $('#exampleModal')[0];
+		$('.refuseButton')
+				.click(
+						function() {
+							var application_num = $(this).data('notifynum');
+							var user_id = $(this).data('notifyid')
+									.toUpperCase();
+							$('.modal-descript')
+									.text(
+											user_id
+													+ " 의 방문요청을 거절합니다. 거절 한 요청은 복구할 수 없습니다. 진행하시겠습니까?");
+							$('.refuse-form').attr("action",
+									"/admin/updateApplication/" + application_num);
+						})
+		$(document).ready(
+				function() {
+					$('#visit_date').text(
+							changeDateFormat($('#visit_date').text()));
+					$('#application_date').text(
+							changeDateFormat($('#application_date').text()));
+				})
+
+				$('.btn-approve').click(function() {
+					console.log(($(this).data("value")));
+					/* $.ajax({
+						url : 'admin/updateApplication/',
+						type : 'POST',
+						dataType : 'json',
+						contentType : 'application/json; charset=utf-8',
+						data : JSON.stringify($('.form').serializeObject()),
+						success : function(data) {
+							var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+								  keyboard: false
+								})
+							exampleModal.toggle()
+						}
+					}) */
+			})
+		function changeDateFormat(data) {
+			const arr = data.split(" ");
+			var temp = new Date(arr[1] + arr[2] + "," + arr[5].substring(0, 4));
+			var Month = temp.getMonth() + 1;
+			if (Month < 10) {
+				Month = "0" + Month;
+			}
+			var date = arr[5].substring(0, 4) + "-" + Month + "-" + arr[2];
+			return date;
+		}
+	</script>
+</th:block>
+</html>
